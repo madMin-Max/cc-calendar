@@ -5,109 +5,72 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Upcoming Events</title>
   <style>
-    /* Base layout */
-    :root { --maxw: 1100px; }
-    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       background: #fff;
     }
     .wrap {
-      max-width: var(--maxw);
+      max-width: 1100px;
       margin: 0 auto;
-      /* MOBILE TWEAK: slightly smaller default padding */
-      padding: 10px 14px;
+      padding: 12px;
     }
-
-    /* Give it room while the widget loads */
     #shim { height: 640px; }
 
-    /* --- MOBILE TWEAKS --- */
-    /* 1) Reduce side padding and font sizes on small screens */
-    @media (max-width: 480px) {
-      .wrap { padding: 8px 10px; }
-      body { font-size: 15px; line-height: 1.45; }
-      /* Tighten common text elements inside the widget */
-      .wrap h1, .wrap h2, .wrap h3 { margin: 6px 0; line-height: 1.2; }
-      .wrap p { margin: 6px 0; }
-      /* Keep any images from overflowing */
-      .wrap img { max-width: 100%; height: auto; border-radius: 8px; }
+    /* --- CARD LAYOUT --- */
+    .wrap > div, .wrap > section, .wrap > ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
     }
 
-    /* 2) Tablet-ish: allow more horizontal flow if widget outputs cards/lis */
-    @media (min-width: 560px) and (max-width: 899px) {
-      /* If the widget outputs a list or card container, these rules encourage side-by-side cards.
-         We target generic children to avoid relying on vendor class names. */
-      .wrap > div,                       /* top-level injected container */
-      .wrap > section,
-      .wrap > ul {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-      /* If items are nested one level deeper */
-      .wrap > div > div,
-      .wrap > section > div,
-      .wrap > ul > li {
-        width: 100%;
-      }
+    /* Each child becomes a card */
+    .wrap > div > div,
+    .wrap > section > div,
+    .wrap > ul > li {
+      background: #fafafa;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
 
-    /* 3) Desktop: comfortable spacing with a responsive grid if applicable */
-    @media (min-width: 900px) {
-      .wrap { padding: 12px 18px; }
-      .wrap > div,
-      .wrap > section,
-      .wrap > ul {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-      }
+    /* Text tweaks */
+    .wrap h2, .wrap h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
     }
-
-    /* 4) Optional: clamp long descriptions to ~4 lines to avoid tall cards on mobile */
-    .wrap .cc-clamp,
-    .wrap [data-cc-clamp],
     .wrap p {
-      display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      margin: 0.5rem 0 0;
     }
 
-    /* 5) Tighter buttons/links */
-    .wrap a {
-      text-decoration: none;
-      border-radius: 8px;
-    }
-    .wrap a[href] {
-      display: inline-block;
-      padding: 8px 12px;
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .wrap > div, .wrap > section, .wrap > ul {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- The CC widget injects its markup BEFORE this loader tag -->
     <script id="events-widget-loader"></script>
     <div id="shim" aria-hidden="true"></div>
   </div>
 
   <script>
-    // Load the Constant Contact widget with your config
     (function (d) {
       if (d.getElementById('events-widget-script')) return;
       var js = d.createElement('script');
       js.id = 'events-widget-script';
       js.src = 'https://static.ctctcdn.com/js/events-widget/current/events-widget.js';
 
-      // === YOUR SETTINGS (adjust freely) ===
+      // === YOUR SETTINGS ===
       js.setAttribute('data-eso', '001pgL1lTKMmjx9i0zPlM1o9g==');
       js.setAttribute('data-title', 'Upcoming events');
-      js.setAttribute('data-events-number', '3');   // try "6" or "9" for more visible items
+      js.setAttribute('data-events-number', '6');   // show 6 at a time
       js.setAttribute('data-dates', 'true');
-      js.setAttribute('data-description', 'true');  // set to "false" to shorten cards on mobile
+      js.setAttribute('data-description', 'true');
       js.setAttribute('data-location', 'true');
       js.setAttribute('data-skip-lp', 'true');
       js.setAttribute('data-env', '.');
@@ -116,7 +79,7 @@
       loader.parentNode.insertBefore(js, loader);
     })(document);
 
-    // Optional: auto-height for iframe embeds (Wix listener code can resize based on this)
+    // auto-height for iframe embeds
     (function () {
       function postHeight() {
         var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
@@ -131,4 +94,3 @@
   </script>
 </body>
 </html>
-
