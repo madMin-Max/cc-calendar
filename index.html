@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Upcoming Events</title>
+  <style>
+    :root { --maxw: 1100px; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background: #fff;
+    }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 12px; }
+    /* Give it room while the widget loads */
+    #shim { height: 680px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- The CC widget injects its markup BEFORE this loader tag -->
+    <script id="events-widget-loader"></script>
+    <div id="shim" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    // Load the Constant Contact widget with your config
+    (function (d) {
+      if (d.getElementById('events-widget-script')) return;
+      var js = d.createElement('script');
+      js.id = 'events-widget-script';
+      js.src = 'https://static.ctctcdn.com/js/events-widget/current/events-widget.js';
+
+      // === YOUR SETTINGS ===
+      js.setAttribute('data-eso', '001pgL1lTKMmjx9i0zPlM1o9g==');
+      js.setAttribute('data-title', 'Upcoming events');
+      js.setAttribute('data-events-number', '3');   // change to "6" or "9" if you want more shown
+      js.setAttribute('data-dates', 'true');
+      js.setAttribute('data-description', 'true');
+      js.setAttribute('data-location', 'true');
+      js.setAttribute('data-skip-lp', 'true');
+      js.setAttribute('data-env', '.');
+
+      var loader = d.getElementById('events-widget-loader');
+      loader.parentNode.insertBefore(js, loader);
+    })(document);
+
+    // Optional: auto-height for iframes that listen for it
+    (function () {
+      function postHeight() {
+        var h = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+        parent.postMessage({ type: 'cc-widget-height', value: h }, '*');
+      }
+      var mo = new MutationObserver(postHeight);
+      mo.observe(document.documentElement, { childList: true, subtree: true });
+      window.addEventListener('load', postHeight);
+      window.addEventListener('resize', postHeight);
+      setInterval(postHeight, 1000);
+    })();
+  </script>
+</body>
+</html>
